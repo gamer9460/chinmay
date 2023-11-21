@@ -150,7 +150,7 @@ To complete the hands-on components you will need:
 - An installation of [Docker](https://docs.docker.com/get-docker/) for your operating system
 
 ## Nomad installation
-- Go to this [page](https://developer.hashicorp.com/nomad /tutorials/get-started/gs-install/) and Download the appropriate package for your system.
+- Go to this [page](https://developer.hashicorp.com/nomad/install) and Download the appropriate package for your system.
 - Check which version of Nomad is suitable for your machine CPU and hit download.
 - Unzip the downloaded file into any directory.
 - (Optional) Place the binary somewhere in your PATH to access it easily from the command line.
