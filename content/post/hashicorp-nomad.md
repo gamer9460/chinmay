@@ -26,8 +26,6 @@ This guide will walk you through all the steps to getting Nomad running, explain
 
 If a container crashes, Nomad will detect this and reschedule it. Or say one of your Azure instances crashes and it had 3 different microservices instances running on it. Nomad will reschedule these 3 microservice instances on different machines in your cluster (if capacity is available).
 
-Say you have version A of your app running and you want to deploy version B. If you want to maintain up time you will need either some form of Blue/Green or rolling deployment. Your scheduler defines and executes these types of tasks.
-
 Think of it as a lightweight version of Kubernetes and also much easier to learn.
 
 ## Nomad architecture:
@@ -195,41 +193,6 @@ The jobs section looks pretty bare when you first start it up — we are going t
 The UI also shows us the Clients and Servers in the cluster. In this case, we will see the same node appear in each section. By clicking on the node name, information about that node will be displayed including OS type, Nomad version, and which resources and task drivers are available.
 
 For more information, take a look at the [Web UI tutorial](https://developer.hashicorp.com/nomad/tutorials/get-started).
-
-## Running Our First Job
-Now that Nomad is up and running, we can schedule our very first job. We will be running the [http-echo](https://github.com/hashicorp/http-echo/) Docker container. This is a simple application that renders an HTML page containing the arguments passed to the http-echo process such as “Hello World”. The process listens on a port such as 8080 provided by another argument.
-
-## Job File
-A simple job file that describes this looks like this:
-
-```bash
-job "http-echo" {
-  datacenters = ["dc1"]
-  group "echo" {
-    count = 1
-    task "server" {
-      driver = "docker"
-      config {
-        image = "hashicorp/http-echo:latest"
-        args  = [
-          "-listen", ":8080",
-          "-text", "Hello and welcome to 127.0.0.1 running on port 8080",
-        ]
-      }
-      resources {
-        network {
-          mbits = 10
-          port "http" {
-            static = 8080
-          }
-        }
-      }
-    }
-  }
-}
-```
-
-Create a file with a name hello-world.nomad Extension must be .nomad.In this file, we will create a job called http-echo, set the driver to use docker and pass the necessary text and port arguments to the container. As we need network access to the container to display the resulting webpage, we define the resources section to require a network with port 8080 open from the host machine to the container.
 
 ## Running the Job in the Web UI
 While we could use the CLI or API to run our job file, it is very easy to schedule the job from the Web UI.
